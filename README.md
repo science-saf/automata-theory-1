@@ -1,1 +1,1 @@
-# automata-theory-1
+Simple server written in golang.
