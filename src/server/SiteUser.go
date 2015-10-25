@@ -1,27 +1,28 @@
 package main
 
 type SiteUser struct {
-  nickname string
-  email string
-  password string
+	nickname  string
+	email     string
+	password1 string
+	password2 string
 }
 
 type SiteUsersCache struct {
-  users map[string]*SiteUser
+	users map[string]*SiteUser
 }
 
 func NewSiteUsersCache() *SiteUsersCache {
-  self := new(SiteUsersCache)
-  self.users = make(map[string]*SiteUser)
-  return self
+	self := new(SiteUsersCache)
+	self.users = make(map[string]*SiteUser)
+	return self
 }
 
 func (self *SiteUsersCache) AddUser(user *SiteUser) {
-  if user != nil {
-    self.users[user.email] = user
-  }
+	if user != nil {
+		self.users[user.email] = user
+	}
 }
 
 func (self *SiteUsersCache) GetUserByEmail(email string) *SiteUser {
-  return self.users[email]
+	return self.users[email]
 }

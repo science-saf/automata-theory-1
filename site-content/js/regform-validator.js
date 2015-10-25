@@ -84,6 +84,7 @@ $(document).ready(function()
     var MSG_INVALID_EMAIL = "Invalid email";
     var MSG_INVALID_PASSWORD = "Invalid password";
     var MSG_INVALID_PASSWORD2 = "Passwords don't match";
+
     var msgText;
     switch (fieldId) {
       case "#nickname_input":

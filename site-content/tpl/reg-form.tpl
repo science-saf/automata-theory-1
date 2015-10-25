@@ -20,28 +20,31 @@
           <div class="form-group">
             <label for="nickname_input">Nickname</label>
             {{if .showAlertName}}
-              <div class="alert alert-danger" role="alert">{{.alertMessage}}</div>
+              <div class="alert alert-danger error-block" role="alert">{{.alertName}}</div>
             {{end}}
-            <input type="text" class="form-control" id="nickname_input" placeholder="Your Nickname" name="userNickname" value="testnickname">
+            <input type="text" class="form-control" id="nickname_input" placeholder="Your Nickname" name="userNickname" value="{{.oldNickname}}">
             <p class="help-block">Nickname should contain only English letters, digits and underscores.</p>
           </div>
           <div class="form-group">
             <label for="email_input">Email address</label>
             {{if .showAlertEmail}}
-              <div class="alert alert-danger" role="alert">{{.alertMessage}}</div>
+              <div class="alert alert-danger error-block" role="alert">{{.alertEmail}}</div>
             {{end}}
-            <input type="email" class="form-control" id="email_input" placeholder="Your Email" name="userEmail" value="test@mail.ru">
+            <input type="email" class="form-control" id="email_input" placeholder="Your Email" name="userEmail" value="{{.oldEmail}}">
             <p class="help-block">Only GMail, Yandex Mail and Mail.ru email addresses allowed.</p>
           </div>
           <div class="form-group">
             <label for="password_input1">Password</label>
-            {{if .showAlertPassword}}
-              <div class="alert alert-danger" role="alert">{{.alertMessage}}</div>
+            {{if .showAlertPassword1}}
+              <div class="alert alert-danger error-block" role="alert">{{.alertPassword1}}</div>
             {{end}}
-            <input type="password" class="form-control" id="password_input1" placeholder="Your New Password" name="userPassword" value="123456a">
+            <input type="password" class="form-control" id="password_input1" placeholder="Your New Password" name="userPassword" value="{{.oldPassword1}}">
           </div>
           <div class="form-group">
-            <input type="password" class="form-control" id="password_input2" placeholder="Repeat Password" name="userPasswordRepeat" value="123456a">
+            {{if .showAlertPassword2}}
+              <div class="alert alert-danger error-block" role="alert">{{.alertPassword2}}</div>
+            {{end}}
+            <input type="password" class="form-control" id="password_input2" placeholder="Repeat Password" name="userPasswordRepeat" value="{{.oldPassword2}}">
             <p class="help-block">Password should have at least 6 characters with letters and digits</p>
           </div>
           <!--<div class="checkbox">
