@@ -48,6 +48,12 @@ func RenderUserPage(ctx *gin.Context, user *SiteUser) {
 	})
 }
 
+func RenderLifeGame(ctx *gin.Context) {
+	ctx.HTML(http.StatusOK, "life.tpl", gin.H{
+		"title": "Automata Theory - Lab2, Game of life",
+	})
+}
+
 func main() {
 	cache := NewSiteUsersCache()
 	validator := new(RegisterFormValidator)
@@ -56,6 +62,9 @@ func main() {
 	router.Static("/css", "../site-content/css")
 	router.Static("/js", "../site-content/js")
 	router.LoadHTMLGlob("../site-content/tpl/*.tpl")
+	router.GET("/life", func(ctx *gin.Context) {
+		RenderLifeGame(ctx)
+	})
 	router.GET("/form", func(ctx *gin.Context) {
 		RenderRegisterForm(ctx, nil, nil)
 	})
