@@ -5,6 +5,9 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>{{ .title}}</title>
 
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css" />
+
 	<style>
 	* {
 		margin: 0;
@@ -19,11 +22,28 @@
 	}
 	</style>
 
+	<script type="text/javascript" src="/js/jquery.js"></script>
 	<script type="text/javascript" src="/js/life.js"></script>
+	<script type="text/javascript" src="/js/script.js"></script>
 </head>
 <body>
+	<div>
+		<button id="add_cell" class="control btn btn-default">Add cell</button>
+		<button id="add_square" class="control btn btn-default">Add square</button>
+		<button id="add_glider" class="control btn btn-default">Add glider</button>
+		<button id="add_pentapole" class="control btn btn-default">Add pentapole</button>
+		<button id="add_spaceship" class="control btn btn-default">Add spaceship</button>
+		<button id="add_gun" class="control btn btn-default">Add glider gun</button>
+		<button id="add_weekender" class="control btn btn-default">Add weekender</button>
+		<button id="add_pulsar" class="control btn btn-default">Add pulsar</button>
+	</div>
+	<div>
+		<button id="start_button" class="btn btn-default">Start</button>
+		<button id="chaotic_start_button" class="btn btn-default">Chaotic start</button>
+	</div>
 <canvas id="viewport"></canvas>
 <script>
+
 var bgColor = '#EEE',
 	lineColor = '#BBB',
 	cellSize = 10;
@@ -114,14 +134,20 @@ world.eraseCellCallback = function(x, y)
 };
 
 world.speed = 50;
-world.start();
 
 function canvasClick(evt)
 {
-	var x = Math.floor((evt.x - topLeft.x) / cellSize);
-	var y = Math.floor((evt.y - topLeft.y) / cellSize);
-	world.burnCell(x, y);
+	var x = Math.floor((evt.clientX - topLeft.x - 13) / cellSize);
+	var y = Math.floor((evt.clientY - topLeft.y) / cellSize);
+	x = x - 12; // added because of error in click coordinates
+	y = y - 13; // added because of error in click coordinates
+	if (!world.started && (activatedControlId !== "")) {
+		processControlClick(x, y);
+	} else {
+		world.burnCell(x, y);
+	}
 }
+
 canvas.onclick = canvasClick;
 
 function keyPress(evt)

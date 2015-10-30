@@ -41,6 +41,7 @@ var World = function()
 World.prototype = {
 	size: new Point,
 	speed: 100,
+	isChaosOnStart: false,
 
 	drawCellCallback: function(x, y, color){},
 	eraseCellCallback: function(x, y){},
@@ -67,16 +68,18 @@ World.prototype = {
 
 		x = y = 0;
 
-		for (var i = 0; i < (this.size.x * this.size.y) / 2; i++) {
+		if (this.isChaosOnStart) {
+			for (var i = 0; i < (this.size.x * this.size.y) / 2; i++) {
 
-			x = Math.round(Math.random() * size.x);
-			if (!this.map[x])
-				this.map[x] = [];
+				x = Math.round(Math.random() * size.x);
+				if (!this.map[x])
+					this.map[x] = [];
 
-			y = Math.round(Math.random() * size.y);
-			this.map[x][y] = new Cell;
+				y = Math.round(Math.random() * size.y);
+				this.map[x][y] = new Cell;
 
-			this.drawCellCallback(x, y);
+				this.drawCellCallback(x, y);
+			}
 		}
 
 		this._changeQueue = [
