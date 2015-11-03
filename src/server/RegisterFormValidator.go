@@ -15,6 +15,7 @@ type RegisterResult struct {
 }
 
 type RegisterFormValidator struct {
+	regexpsContainer RegexpsContainer
 }
 
 type RegexpsContainer struct {
@@ -23,8 +24,6 @@ type RegexpsContainer struct {
 	passwordRegexp1 *regexp.Regexp
 	passwordRegexp2 *regexp.Regexp
 }
-
-var regexpsContainer RegexpsContainer
 
 func (self *RegisterFormValidator) Check(user *SiteUser) RegisterResult {
 	self.InitRegexpsContainer()
@@ -47,7 +46,7 @@ func (self *RegisterFormValidator) Check(user *SiteUser) RegisterResult {
 }
 
 func (self *RegisterFormValidator) InitRegexpsContainer() {
-	regexpsContainer = RegexpsContainer{
+	self.regexpsContainer = RegexpsContainer{
 		nicknameRegexp:  regexp.MustCompile("^[A-z0-9_]+$"),
 		emailRegexp:     regexp.MustCompile("(?i)^[A-z0-9_]+@(?:gmail\\.com|yandex\\.ru|mail\\.ru)$"),
 		passwordRegexp1: regexp.MustCompile("[A-z]+"),
@@ -56,15 +55,15 @@ func (self *RegisterFormValidator) InitRegexpsContainer() {
 }
 
 func (self *RegisterFormValidator) IsNicknameValid(nickname string) bool {
-	return regexpsContainer.nicknameRegexp.MatchString(nickname)
+	return self.regexpsContainer.nicknameRegexp.MatchString(nickname)
 }
 
 func (self *RegisterFormValidator) IsEmailValid(email string) bool {
-	return regexpsContainer.emailRegexp.MatchString(email)
+	return self.regexpsContainer.emailRegexp.MatchString(email)
 }
 
 func (self *RegisterFormValidator) IsPasswordValid(password string) bool {
-	result := regexpsContainer.passwordRegexp1.MatchString(password)
-	result = result && regexpsContainer.passwordRegexp2.MatchString(password)
+	result := self.regexpsContainer.passwordRegexp1.MatchString(password)
+	result = result && self.regexpsContainer.passwordRegexp2.MatchString(password)
 	return result
 }
