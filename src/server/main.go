@@ -71,10 +71,10 @@ func RenderCalc(ctx *gin.Context, expression string, isAjax string) {
 			})
 		} else {
 			ctx.HTML(http.StatusOK, "calc.tpl", gin.H{
-				"title": "Automata Theory - Lab3, Calculator",
+				"title":  "Automata Theory - Lab3, Calculator",
 				"errors": errors,
 				"result": result,
-				"test": test,
+				"test":   test,
 			})
 		}
 	} else {
