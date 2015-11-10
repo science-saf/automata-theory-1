@@ -43,10 +43,6 @@
 			</p>
 		</div>
 
-		<div class="row alert alert-danger" id="errors" {{if .errors}}style="display:block;"{{else}}style="display:none;"{{end}}>
-			{{.errors}}
-		</div>
-
 		<div class="row">
 			<form action="" method="POST" id="calculator_form">
 				<div class="form-group">
@@ -59,6 +55,10 @@
 					<button type="submit" class="btn btn-default">Calculate</button>
 				</div>
 			</form>
+		</div>
+
+		<div class="row alert alert-danger" id="errors" {{if .errors}}style="display:block;"{{else}}style="display:none;"{{end}}>
+			{{.errors}}
 		</div>
 
 		<div class="row" {{if .errors}}style="display:none;"{{else}}style="display:none;"{{end}} id="result">{{.result}}</div>

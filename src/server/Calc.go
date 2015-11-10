@@ -47,10 +47,10 @@ func (self *Calc) Init(str string) {
 func (self *Calc) ParseExpr() float32 {
 	WriteToLogStr("ParseExpr with " + self.inputStr)
 	if len(self.errors) > 0 {
-		return 0
+		return 1
 	}
 	if self.inputStr == "" {
-		return 0
+		return 1
 	}
 
 	return self.ParseSum()
@@ -106,7 +106,7 @@ func (self *Calc) RefreshHintOnError() {
 func (self *Calc) ParseSum() float32 {
 	WriteToLogStr("ParseSum with " + self.inputStr)
 	if len(self.errors) > 0 {
-		return 0
+		return 1
 	}
 
 	var left float32
@@ -131,7 +131,7 @@ func (self *Calc) ParseSum() float32 {
 func (self *Calc) ParseMul() float32 {
 	WriteToLogStr("ParseMul with " + self.inputStr)
 	if len(self.errors) > 0 {
-		return 0
+		return 1
 	}
 
 	var left float32
@@ -152,11 +152,11 @@ func (self *Calc) ParseMul() float32 {
 func (self *Calc) ParseUnary() float32 {
 	WriteToLogStr("ParseUnary with " + self.inputStr)
 	if len(self.errors) > 0 {
-		return 0
+		return 1
 	}
 	if len(self.inputStr) == 0 {
 		self.errors = append(self.errors, "Unexpected end of string")
-		return 0
+		return 1
 	}
 
 	if self.inputStr[0] == '+' {
@@ -174,7 +174,7 @@ func (self *Calc) ParseBrackets() float32 {
 	WriteToLogStr("ParseBrackets with " + self.inputStr)
 	WriteArrayToLogStr(self.errors)
 	if len(self.errors) > 0 {
-		return 0
+		return 1
 	}
 
 	if self.inputStr[0] == '(' {
@@ -206,7 +206,7 @@ func (self *Calc) ParseFunc() float32 {
 	WriteToLogStr("ParseFunc with " + self.inputStr)
 	WriteArrayToLogStr(self.errors)
 	if len(self.errors) > 0 {
-		return 0
+		return 1
 	}
 
 	funcName := ""
@@ -219,7 +219,7 @@ func (self *Calc) ParseFunc() float32 {
 			self.inputStr = self.inputStr[len(funcName):]
 			if len(self.inputStr) == 0 {
 				self.errors = append(self.errors, "Unexpected end of string")
-				return 0
+				return 1
 			}
 			if self.inputStr[0] == '(' {
 				if funcName == "rand" {
@@ -244,7 +244,7 @@ func (self *Calc) ParseFunc() float32 {
 func (self *Calc) CalculateRand() float32 {
 	WriteToLogStr("CalculateRand with " + self.inputStr)
 	if len(self.errors) > 0 {
-		return 0
+		return 1
 	}
 
 	var randArgStr string
@@ -271,7 +271,7 @@ func (self *Calc) CalculateRand() float32 {
 			self.errors = append(self.errors, "Opening brackets mismatch begins from "+self.hintOnError)
 		}
 
-		return 0
+		return 1
 	}
 
 	randArgStr = self.inputStr[1 : randBracketsLength-1]
@@ -281,10 +281,10 @@ func (self *Calc) CalculateRand() float32 {
 
 	if len(argv) > 2 {
 		self.errors = append(self.errors, "Too many arguments for rand() near "+self.hintOnError)
-		return 0
+		return 1
 	} else if len(argv) < 2 {
 		self.errors = append(self.errors, "Too few arguments for rand() near "+self.hintOnError)
-		return 0
+		return 1
 	}
 
 	var argvFloat32 []float32
@@ -306,7 +306,7 @@ func (self *Calc) CalculateRand() float32 {
 
 func (self *Calc) CalculateFunction(funcName string, arg32 float32) float32 {
 	if len(self.errors) > 0 {
-		return 0
+		return 1
 	}
 
 	var result float64
@@ -332,7 +332,7 @@ func (self *Calc) CalculateFunction(funcName string, arg32 float32) float32 {
 		result = math.Sqrt(arg)
 	default:
 		self.errors = append(self.errors, "Unknown identifier "+funcName)
-		return 0
+		return 1
 	}
 
 	return float32(result)
@@ -342,7 +342,7 @@ func (self *Calc) ParseAtom() float32 {
 	WriteToLogStr("ParseAtom with " + self.inputStr)
 	WriteArrayToLogStr(self.errors)
 	if len(self.errors) > 0 {
-		return 0
+		return 1
 	}
 
 	self.RefreshHintOnError()
@@ -364,7 +364,7 @@ func (self *Calc) ParseAtom() float32 {
 		if err != nil {
 			self.errors = append(self.errors, "Parsing problem near "+self.hintOnError)
 
-			return 0
+			return 1
 		}
 		WriteToLogStr("ParseAtom: got")
 		WriteToLogFloat32(parsedFloat32)
@@ -373,10 +373,10 @@ func (self *Calc) ParseAtom() float32 {
 	} else {
 		self.errors = append(self.errors, "Error near "+self.hintOnError)
 
-		return 0
+		return 1
 	}
 
-	return 1 // Something went totally wrong
+	return 0 // Something went totally wrong
 }
 
 func (self *Calc) DegToRad(deg float64) float64 {
