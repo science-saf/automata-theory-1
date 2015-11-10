@@ -54,6 +54,36 @@ func RenderLifeGame(ctx *gin.Context) {
 	})
 }
 
+func RenderCalc(ctx *gin.Context, expression string, isAjax string) {
+	// calcTests := new(CalcTests)
+	// calcTests.run()
+	WriteToLogStr("isAjax: +" + isAjax + "+")
+	if expression != "" {
+		calc := new(Calc)
+		calc.Init(expression)
+		result := calc.ParseExpr()
+		errors := calc.errors
+		test := *ctx
+		if isAjax == "true" {
+			ctx.JSON(http.StatusOK, gin.H{
+				"errors": errors,
+				"result": result,
+			})
+		} else {
+			ctx.HTML(http.StatusOK, "calc.tpl", gin.H{
+				"title": "Automata Theory - Lab3, Calculator",
+				"errors": errors,
+				"result": result,
+				"test": test,
+			})
+		}
+	} else {
+		ctx.HTML(http.StatusOK, "calc.tpl", gin.H{
+			"title": "Automata Theory - Lab3, Calculator",
+		})
+	}
+}
+
 func main() {
 	cache := NewSiteUsersCache()
 	validator := new(RegisterFormValidator)
@@ -67,6 +97,12 @@ func main() {
 	})
 	router.GET("/form", func(ctx *gin.Context) {
 		RenderRegisterForm(ctx, nil, nil)
+	})
+	router.GET("/calc", func(ctx *gin.Context) {
+		RenderCalc(ctx, "", "")
+	})
+	router.POST("/calc", func(ctx *gin.Context) {
+		RenderCalc(ctx, ctx.PostForm("expression"), ctx.PostForm("is_ajax"))
 	})
 	router.POST("/form", func(ctx *gin.Context) {
 		user := &SiteUser{
@@ -95,6 +131,15 @@ func ContainsInt32(int32Haystack []int32, needle int32) bool {
 	return false
 }
 
+func ContainsStr(strHaystack []string, needle string) bool {
+	for _, value := range strHaystack {
+		if value == needle {
+			return true
+		}
+	}
+	return false
+}
+
 func WriteArrayToLogStr(strArr []string) {
 	for _, value := range strArr {
 		WriteToLogStr(value)
@@ -109,6 +154,14 @@ func WriteArrayToLogInt32(int32Arr []int32) {
 
 func WriteToLogInt32(int32var int32) {
 	WriteToLogStr(fmt.Sprintf("%d", int32var))
+}
+
+func WriteToLogBool(boolVar bool) {
+	WriteToLogStr(fmt.Sprintf("%t", boolVar))
+}
+
+func WriteToLogFloat32(float32var float32) {
+	WriteToLogStr(fmt.Sprintf("%f", float32var))
 }
 
 func WriteToLogStr(str string) {
