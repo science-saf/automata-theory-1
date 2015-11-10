@@ -21,7 +21,7 @@ $(function() {
 	$(".control").click(function(event){
     if (world.started)
       return;
-      
+
 		activateControl($(this));
 		disableControls();
 	});

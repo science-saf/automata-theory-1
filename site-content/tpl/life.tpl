@@ -24,7 +24,7 @@
 
 	<script type="text/javascript" src="/js/jquery.js"></script>
 	<script type="text/javascript" src="/js/life.js"></script>
-	<script type="text/javascript" src="/js/script.js"></script>
+	<script type="text/javascript" src="/js/life_controls_script.js"></script>
 </head>
 <body>
 	<div>
